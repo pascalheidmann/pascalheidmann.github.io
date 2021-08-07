@@ -1,7 +1,6 @@
 ---
 title: "About me"
 draft: false
-showDate: false
 ---
 
 Hello world,
