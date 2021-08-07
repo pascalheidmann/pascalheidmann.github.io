@@ -1,0 +1,18 @@
+baseURL = 'https://heidmann.io/'
+languageCode = 'en-us'
+title = 'pascal.heidmann.io | something with developing something'
+theme = "m10c"
+
+[params]
+    description ='''
+    "Hi there 👋
+
+    ❤️ly greetings from Hamburg!
+    '''
+    author = "Pascal Heidmann"
+    avatar = "https://avatars.githubusercontent.com/u/19560252?v=4"
+
+    [[params.social]]
+        icon = "github"
+        name = "See my work on github."
+        url = "https://github.com/pascalheidmann"
