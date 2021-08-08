@@ -1,4 +1,4 @@
-baseURL = 'https://heidmann.io/'
+baseURL = 'https://pascal.heidmann.io/'
 languageCode = 'en-us'
 title = 'pascal.heidmann.io | something with developing something'
 theme = "m10c"
