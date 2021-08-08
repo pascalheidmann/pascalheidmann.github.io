@@ -5,7 +5,7 @@ theme = "m10c"
 
 [params]
     description ='''
-    Hi there 👋 ● ❤️ly greetings from Hamburg!
+    Hi there 👋 ● ❤️ly greetings from Hamburg ⚓!
     '''
     author = "Pascal Heidmann"
     avatar = "https://avatars.githubusercontent.com/u/19560252?v=4"
@@ -19,3 +19,8 @@ theme = "m10c"
         identifier = "about-me"
         name = "About me"
         url = "/about/about-me"
+
+    [[menu.main]]
+        identifier = "error"
+        name = "Found an error? Open issue on github"
+        url = "https://github.com/pascalheidmann/pascalheidmann.github.io/issues"
