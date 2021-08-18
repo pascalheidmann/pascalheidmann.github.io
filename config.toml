@@ -12,8 +12,13 @@ theme = "m10c"
 
     [[params.social]]
         icon = "github"
-        name = "See my work on github."
+        name = "See my work on github"
         url = "https://github.com/pascalheidmann"
+
+    [[params.social]]
+        icon = "linkedin"
+        name = "Connect with me on LinkedIn"
+        url = "https://www.linkedin.com/in/pascal-heidmann/"
 
     [[menu.main]]
         identifier = "about-me"
