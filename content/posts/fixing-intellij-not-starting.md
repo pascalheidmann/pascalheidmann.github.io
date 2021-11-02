@@ -2,6 +2,7 @@
 title: "Fixing not starting PHPStorm / other IntelliJ IDE"
 date: 2021-08-07T22:34:56+02:00
 draft: false
+tags: ["intellij", "jetbrains", "phpstorm", "windows"]
 ---
 
 ## Problem
