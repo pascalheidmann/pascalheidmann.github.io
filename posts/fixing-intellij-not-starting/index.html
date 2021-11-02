@@ -1,9 +1,9 @@
 <!doctype html><html lang=en-us>
 <head>
-<title>Fixing not starting PHPStorm / other IntelliJ IDE // pascal.heidmann.io | something with developing something</title>
+<title>Fixing not starting PHPStorm / other IntelliJ IDE // pascal.heidmann.io | developing in Hamburg... ⚓</title>
 <link rel="shortcut icon" href=/favicon.ico>
 <meta charset=utf-8>
-<meta name=generator content="Hugo 0.87.0">
+<meta name=generator content="Hugo 0.88.1">
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=author content="Pascal Heidmann">
 <meta name=description content>
@@ -51,6 +51,12 @@ Aug 7, 2021
 <div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock"><title>clock</title><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
 1 min read
 </div>
+<div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag"><title>tag</title><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83.0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+<a class=tag href=https://pascal.heidmann.io/tags/intellij/>intellij</a>
+<a class=tag href=https://pascal.heidmann.io/tags/jetbrains/>jetbrains</a>
+<a class=tag href=https://pascal.heidmann.io/tags/phpstorm/>phpstorm</a>
+<a class=tag href=https://pascal.heidmann.io/tags/windows/>windows</a>
+</div>
 </div>
 </header>
 <div class=post-content>
@@ -68,7 +74,7 @@ s <code>Settings</code> page inside toolbox, expand <code>Configuration</code> a
 <h2 id=solution>Solution</h2>
 <p>After checking the logs (<code>%HOMEDRIVE%%HOMEPATH%/AppData/Local/Jetbrains/PhpStorm2021.2/log/idea.log</code>) I found an error
 at the end of the log file.</p>
-<pre><code class=language-log data-lang=log>java.net.BindException: Address already in use: bind
+<pre tabindex=0><code class=language-log data-lang=log>java.net.BindException: Address already in use: bind
 </code></pre><p>somewhere in Netty, a common java server framework which is used inside IntelliJ for internal communication.</p>
 <p>As it turned out it tries to open a port between 6942 and 6991. Somehow no port was free anymore as there seems problem
 with releasing ports with <code>winnat</code>
