@@ -1,6 +1,6 @@
 baseURL = 'https://pascal.heidmann.io/'
 languageCode = 'en-us'
-title = 'pascal.heidmann.io | something with developing something'
+title = 'pascal.heidmann.io | developing in Hamburg... ⚓'
 theme = "m10c"
 
 [params]
