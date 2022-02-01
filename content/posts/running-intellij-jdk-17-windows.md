@@ -46,7 +46,7 @@ still contains those but are not exported by default anymore. Trying to access t
 Use the `Find Action` hotkey (`ctrl` + `shift` + `A` on Windows & Linux, `CMD` + `shift` + `A` on Mac) to search
 for `Choose Boot Java Runtime for the IDE...`.
 
-{{< figure src="/static/media/posts/intellij-switch-jdk17.png" title="jdk-switcher dialog" >}}
+{{< figure src="/media/posts/intellij-switch-jdk17.png" title="jdk-switcher dialog" >}}
 
 In the opening dialog you can select the JDK you want to use. IntelliJ comes with several flavors of JDK 11, but you can
 add any other compatible installed. IntelliJ should automatically pick up and suggest an installed JDK.
