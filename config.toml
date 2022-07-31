@@ -2,30 +2,31 @@ baseURL = 'https://pascal.heidmann.io/'
 languageCode = 'en-us'
 title = 'pascal.heidmann.io | developing in Hamburg... ⚓'
 theme = "m10c"
+enableGitInfo = true
 
 [params]
-    description ='''
+description = '''
     Hi there 👋 ● ❤️ly greetings from Hamburg ⚓!
     '''
-    author = "Pascal Heidmann"
-    avatar = "https://avatars.githubusercontent.com/u/19560252?v=4"
+author = "Pascal Heidmann"
+avatar = "https://avatars.githubusercontent.com/u/19560252?v=4"
 
-    [[params.social]]
-        icon = "github"
-        name = "See my work on github"
-        url = "https://github.com/pascalheidmann"
+[[params.social]]
+icon = "github"
+name = "See my work on github"
+url = "https://github.com/pascalheidmann"
 
-    [[params.social]]
-        icon = "linkedin"
-        name = "Connect with me on LinkedIn"
-        url = "https://www.linkedin.com/in/pascal-heidmann/"
+[[params.social]]
+icon = "linkedin"
+name = "Connect with me on LinkedIn"
+url = "https://www.linkedin.com/in/pascal-heidmann/"
 
-    [[menu.main]]
-        identifier = "about-me"
-        name = "About me"
-        url = "/about/about-me"
+[[menu.main]]
+identifier = "about-me"
+name = "About me"
+url = "/about/about-me"
 
-    [[menu.main]]
-        identifier = "error"
-        name = "Found an error? Open issue on github"
-        url = "https://github.com/pascalheidmann/pascalheidmann.github.io/issues"
+[[menu.main]]
+identifier = "error"
+name = "Found an error? Open issue on github"
+url = "https://github.com/pascalheidmann/pascalheidmann.github.io/issues"
