@@ -1,27 +1,27 @@
 ---
 title: "Inside Dependency Injection: building DI from scratch"
-date: 2024-03-015T15:34:56+02:00
+date: 2023-03-15T23:15:57+01:00
 draft: false
 tags: [ "dependency injection", "PHP", "software design" ]
 description: "Most frameworks nowadays use Dependency Injection. In this article I will get inside the basics how a DI works by building one from scratch"
 ---
 
+# What is a Dependency Injection (DI)
+
 Most frameworks nowadays use dependency injection.
 In this article, I will get inside the basics how a DI works by building one in PHP from scratch.
-
-## What is a Dependency Injection (DI)
 
 A Dependency Injection system is used to solve the issue of having to
 (re-)using instances of services around the application by providing a central way to access each and every service.
 They also take care of making all required dependencies available just in time — therefore the name.
 
-## Road to service container
+# Road to service container
 
 A typical service you will need again and again in an application is your database connection.
 You want to configure and establish it once and then be able to reuse it all the time.
 Therefore this will be my example service for the following examples
 
-### Globals
+###Globals
 
 Most programming languages have different scopes for their variables,
 with most languages having a concept of a global variable.
@@ -50,7 +50,7 @@ There are several obvious issues with this approach:
 
 3. I always have to instantiate it even if I don't need it. This is a waste of resources.
 
-### Singletons
+## Singletons
 
 Singletons are the result of the mentioned issues.
 They are a software pattern
@@ -282,7 +282,7 @@ This factory method itself now uses the `ServiceContainer`
 and triggers the creation of the `DatabaseConnection`
 to provide its instance to the constructor of the `DocumentRepository`.
 
-## Conclusion
+# Conclusion
 
 Thanks to our new dependency injection, we are now able to
 
@@ -294,7 +294,7 @@ Thanks to our new dependency injection, we are now able to
   else — still while not knowing anything over any service it manages
 
 
-### So what's next?
+## So what's next?
 In a future blog post, I want to elaborate on the idea and introduce some advanced features like an `alias` system,
 structure for systematic creation & configuration
 as well as so called `autowiring`
