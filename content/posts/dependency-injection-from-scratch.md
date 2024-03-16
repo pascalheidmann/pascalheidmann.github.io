@@ -14,14 +14,15 @@ In this article, I will get inside the basics how a DI works by building one in 
 A Dependency Injection system is used to solve the issue of having to
 (re-)using instances of services around the application by providing a central way to access each and every service.
 They also take care of making all required dependencies available just in time — therefore the name.
+All this is achieved by decoupling each service, its dependencies and their configuration.
 
 # Road to service container
 
 A typical service you will need again and again in an application is your database connection.
 You want to configure and establish it once and then be able to reuse it all the time.
-Therefore this will be my example service for the following examples
+Therefore, this will be my example service for the following examples
 
-###Globals
+## Globals
 
 Most programming languages have different scopes for their variables,
 with most languages having a concept of a global variable.
@@ -40,13 +41,13 @@ There are several obvious issues with this approach:
 
 1. As this is a variable, I can override it at any time in any part of my application
    breaking havoc if my `$DB` now not the same database connection anymore.
-   Maybe two devs where developing their features and both needed some database and used the same variable.
-   It worked as long as they did not merge, but now you cannot tell which connection is behind that descriptive
-   variable.
+
+   Take for example two devs who are developing their features and both need some database. They use the global variable `$DB`.
+   It works for as long as they do not merge, but now you cannot tell which connection is behind that "descriptive"
+   variable anymore and things break.
 
 2. It is global by its nature, and every part of the application can use it.
-   I cannot trace it uses through the application because one part of the application might define its own **local
-   ** `$DB`.
+   I cannot trace it uses through the application because one part of the application might define its own **local** `$DB`.
 
 3. I always have to instantiate it even if I don't need it. This is a waste of resources.
 
@@ -58,7 +59,7 @@ that aims to have a single instance of a given object that will be reused for ev
 To achieve this task there is always a method to get the same instance again, and if none exists yet they will create
 it.
 
-Pure function:
+### Functional-style singleton
 
 ```php
 function getDbInstance(): DatabaseConnection {
@@ -74,7 +75,7 @@ function getDbInstance(): DatabaseConnection {
 $db = getDbInstance();
 ```
 
-OOP
+### OOP-style singleton
 
 ```php
 class DatabaseConnection {
@@ -102,11 +103,11 @@ Also,
 you now have either the configuration global instead or weave it
 (like in my example) directly into your service, which makes it harder to reuse.
 
-Something we haven't talked about yet is testing.
+Something we haven't talked about yet is **testing**.
 Considering the example with our database connection,
-we normally do not want to call our production database
-and therefore need a different connection with different configuration.
-In this case, the aforementioned configuration within our service is a big no-go.
+we normally do not want to call our **production database**
+This means that we need a different database with a different configuration.
+In this case, the aforementioned configuration directly within our service is a big no-go.
 
 ## Containers
 
@@ -124,7 +125,7 @@ class ServiceContainer {
     
     public static function getInstance(): self {
         if (!self::$instance) {
-            self::$instance = new self('localhost', 3306, 'user', 'password');
+            self::$instance = new self();
         }
         return self::$instance;
     }
@@ -146,15 +147,21 @@ class ServiceContainer {
 // For now: use singleton to make service container available everywhere
 // configuration
 $container = ServiceContainer::getInstance();
-$container->set('MyVeryCoolSecreteDatabaseConnection', new DatabaseConnection('localhost', 42000, 'user', 'password'));
-$container->set(DatabaseConnection::class, new DatabaseConnection('127.0.0.1', 3306, 'user', 'password'));
+$container->set(
+    'MyVeryCoolSecreteDatabaseConnection',
+    new DatabaseConnection('localhost', 42000, 'user', 'password')
+);
+$container->set(
+    DatabaseConnection::class,
+    new DatabaseConnection('127.0.0.1', 3306, 'user', 'password')
+);
 
 // ...
 // In my app now I can do following
 $db = ServiceContainer::getInstance()->get('MyVeryCoolSecreteDatabaseConnection');
 $result = $qb->query('SELECT * FROM foo');
 
-
+// different connection
 $db2 = ServiceContainer::getInstance()->get(DatabaseConnection::class);
 $result = $qb2->query('SELECT * FROM foo');
 ```
@@ -168,6 +175,7 @@ using the same `DatabaseConnection` class.
 
 When testing, we sometimes we do not want to have a connection to a database at all
 but instead use a mocked service that always returns the same, predefined values.
+
 What do we now?
 Well, thanks to `interfaces` we can now do the following:
 
@@ -181,7 +189,10 @@ class MockDatabaseConnection implements DatabaseConnectionInterface {}
 
 // CONFIGURATION
 // In productionx
-$container->set(DatabaseConnectionInterface::class, new DatabaseConnection('127.0.0.1', 3306, 'user', 'password'));
+$container->set(
+    DatabaseConnectionInterface::class,
+    new DatabaseConnection('127.0.0.1', 3306, 'user', 'password')
+);
 
 // For testing
 $container->set(DatabaseConnectionInterface::class, new MockDatabaseConnection());
@@ -199,7 +210,7 @@ to create new instances of a specific component.
 This can be a `WindowFactory`
 that creates a new `Window` in your UI with specific configurations or like in our example a new database connection.
 
-If you paid a little bit attention one goal of the `Singleton` pattern was the instantiation when it is first needed
+If you paid a little bit of attention one goal of the `Singleton` pattern was the instantiation when it is first needed
 (`getInstance()`) which we lost in our previous example with our service container.
 But fear not: there is an easy fix by extending out
 
@@ -208,7 +219,7 @@ class ServiceContainer {
     private array $services = [];
     
     // this is new
-    private array $factories = []:
+    private array $factories = [];
     
     public function set(string $name, mixed $service) {
        $this->services[$name] = $service;
@@ -224,7 +235,7 @@ class ServiceContainer {
             if (!isset($this->factories[$name])) {
                 throw new RuntimeException('Unknown service ' . $name);
             }
-            $this->set($name, $factory($this, $name));
+            $this->set($name, $this->factories[$name]($this, $name));
        }
        return $this->services[$name];
    }
@@ -235,7 +246,10 @@ With this new extended `ServiceContainer` we have two ways to get a service:
 it is either given already preconfigured or we have a factory-callback that will return the required instance.
 
 ```php
-$serviceContainer->setFactory(DatabaseConnectionInterface::class, fn() => new DatabaseConnection('127.0.0.1', 3306, 'user', 'password')));
+$serviceContainer->setFactory(
+    DatabaseConnectionInterface::class,
+    fn() => new DatabaseConnection('127.0.0.1', 3306, 'user', 'password'))
+);
 
 // ...
 
@@ -262,10 +276,15 @@ class DocumentRepository {
     }
 }
 
-$serviceContainer->setFactory(DatabaseConnectionInterface::class, fn() => new DatabaseConnection('127.0.0.1', 3306, 'user', 'password')));
+$serviceContainer->setFactory(
+    DatabaseConnectionInterface::class,
+    fn() => new DatabaseConnection('127.0.0.1', 3306, 'user', 'password'))
+);
 $serviceContainer->setFactory(
     DocumentRepository::class,
-    fn(ServiceContainer $container) => new DocumentRepository($container->get(DatabaseConnectionInterface::class))
+    fn(ServiceContainer $container) => new DocumentRepository(
+        $container->get(DatabaseConnectionInterface::class)
+    )
 );
 
 // ...
@@ -293,8 +312,8 @@ Thanks to our new dependency injection, we are now able to
 - leave our global variable scope clean as our only entry point is our `ServiceContainer` which encapsulates everything
   else — still while not knowing anything over any service it manages
 
-
 ## So what's next?
+
 In a future blog post, I want to elaborate on the idea and introduce some advanced features like an `alias` system,
 structure for systematic creation & configuration
 as well as so called `autowiring`
