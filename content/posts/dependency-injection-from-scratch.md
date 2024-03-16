@@ -1,8 +1,8 @@
 ---
 title: "Inside Dependency Injection: building DI from scratch"
-date: 2023-03-15T23:15:57+01:00
+date: 2024-03-15T23:15:57+01:00
 draft: false
-tags: [ "dependency injection", "PHP", "software design" ]
+tags: [ "dependency injection", "php", "software design" ]
 description: "Most frameworks nowadays use Dependency Injection. In this article I will get inside the basics how a DI works by building one from scratch"
 ---
 
@@ -56,7 +56,7 @@ There are several obvious issues with this approach:
 Singletons are the result of the mentioned issues.
 They are a software pattern
 that aims to have a single instance of a given object that will be reused for every consecutive use case.
-To achieve this task there is always a method to get the same instance again, and if none exists yet they will create
+To achieve this task there is always a method to get the same instance again, and if none exists, yet they will create
 it.
 
 ### Functional-style singleton
