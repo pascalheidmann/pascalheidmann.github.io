@@ -312,6 +312,17 @@ Thanks to our new dependency injection, we are now able to
 - leave our global variable scope clean as our only entry point is our `ServiceContainer` which encapsulates everything
   else — still while not knowing anything over any service it manages
 
+Things to consider
+
+- DI systems add another layer of complexity which makes them harder to debug
+- we request dependencies on runtime and not statically.
+  You can overcome parts of it with static analyzers like PHPStan in PHP
+  that [know PSR-11 containers](https://github.com/bnf/phpstan-psr-container) but factories etc. all run dynamically.
+  The same goes for code suggestions in your IDE.
+  Therefore,
+  make sure that you do not use the dependency injection directly in your code
+  but let it handle everything and work with contracts aka interfaces.
+
 ## So what's next?
 
 In a future blog post, I want to elaborate on the idea and introduce some advanced features like an `alias` system,
