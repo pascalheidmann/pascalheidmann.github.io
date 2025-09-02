@@ -16,13 +16,13 @@ experience:
     start: "Februar 2021"
     end: "Present"
     description: |
-      Inoffical Lead engineer for the private health insurance (PKV) comparison page.
-      I ensure reliability and speed, drive continuous improvement of the codebase and architecture, and enable fast delivery.
+      My team's responsibility is to develop new features for the comparison page for private health insurance (PKV).
+      As kind of unofficial lead developer I ensure reliability and speed, drive continuous improvement of the codebase and architecture, and enable fast delivery so my colleagues can focus on building great features for our customers.
       Member of the internal architecture group; build and maintain shared infrastructure and libraries.
-      Accepted into the CHECK24 Excellence program (2025). Also conducted interviews, served as brand ambassador, and co-organized meetups.
 
-  - company: "Selbstständig"
-    role: "Freelance Software Engineer"
+      Lately I got accepted into the CHECK24 Excellence program (2025). Previously I conducted recruiting interviews, served as brand ambassador, and co-organized meetups.
+
+  - company: "Freelancer"
     start: "Juni 2022"
     end: "Present"
     description: |
@@ -34,13 +34,13 @@ experience:
     end: "Januar 2021"
 
   - company: "Sport Alliance GmbH"
-    role: "Software Engineer"
+    role: "Working Student & Software Engineer"
     start: "Dezember 2016"
     end: "Juni 2020"
     description: |
-      Shopware developer for Bedarf.de Großhandel GmbH, a subsidiary of Sport Alliance GmbH.
-
-      I was handling all technical decisions, coordinating freelancers while ensuring our sales team could scale up from a few orders to several 100k revenue per month. Due to our team size and feature pace this meant contributing lots of upstream work to the Open Source Shopware 5 system, being a top 5 external contributor for most releases during this time.
+      I was handling all technical decisions for our Shopware shop at Bedarf.de Großhandel GmbH.
+      I coordinated the work of several freelancers while ensuring our sales team could scale up from a few orders to several 100k revenue per month.
+      Due to our team size and feature pace this meant contributing lots of upstream work to the Open Source Shopware 5 system, being a top 5 external contributor for most releases during this time.
 
   - company: "Netshops Commerce GmbH"
     role: "Working Student"
