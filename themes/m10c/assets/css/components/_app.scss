@@ -1,0 +1,57 @@
+.app-header {
+    padding: 2.5rem;
+    background-color: $darkest-color;
+    text-align: center;
+}
+
+.app-header-avatar {
+    width: 15rem;
+    height: 15rem;
+    border-radius: 100%;
+    border: 0.5rem solid $primary-color;
+}
+
+.app-container {
+    padding: 2.5rem;
+}
+
+.app-header-social {
+    color: $lightest-color;
+
+    a {
+        display: inline-block;
+        margin: 0.5em;
+        animation: filter .3s ease-in-out;
+
+        & > svg {
+            height: 1.5rem;
+            width: 1.5rem;
+        }
+
+        &:hover, &:active, &:focus {
+            text-decoration: none;
+            filter: drop-shadow(0 0 2px $primary-color);
+        }
+    }
+}
+
+@media (min-width: 940px) {
+    .app-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 20rem;
+        min-height: 100vh;
+    }
+
+    .app-container {
+        max-width: 65rem;
+        margin-left: 20rem;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .app-header {
+        background-color: #000;
+    }
+}

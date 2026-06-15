@@ -1,0 +1,339 @@
+{{ define "header" }}{{ end }}
+{{ define "main" }}
+<style>
+    .cv-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    @media (min-width: 800px) {
+        .cv-wrapper {
+            flex-direction: row;
+            align-items: flex-start;
+        }
+    }
+
+    .cv-left {
+        flex: 0 0 260px;
+        max-width: 100%;
+    }
+
+    .cv-right {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .cv-card {
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+        padding: 1.25rem;
+        background: #ffffff;
+        color: #111111;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+    /* Increase padding only on the main (right) content card */
+    .cv-right .cv-card {
+        padding: 2rem;
+    }
+
+    .cv-left .avatar {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto 1rem auto;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    .cv-name {
+        text-align: center;
+        margin: 0.25rem 0 0.75rem 0;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #0f0f0f;
+    }
+
+    .cv-links {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+        margin-top: 0.75rem;
+    }
+
+    .cv-links a {
+        color: inherit;
+        text-decoration: none;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        padding: 0.5rem 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: background-color .15s ease, border-color .15s ease, color .15s ease, transform .05s ease;
+    }
+    .cv-links a:hover,
+    .cv-links a:focus-visible {
+        background: rgba(34, 197, 94, 0.15); /* greenish tint */
+        border-color: #22c55e;               /* solid green border */
+        color: #0f0f0f;                      /* dark text/icon */
+        text-decoration: underline;
+    }
+    .cv-links a:focus {
+        outline: 3px solid #2684FF;
+        outline-offset: 2px;
+    }
+    .cv-links a:focus:not(:focus-visible) {
+        outline: none;
+        background: transparent;
+    }
+    .cv-links a:focus-visible {
+        outline: 3px solid #2684FF;
+        outline-offset: 2px;
+    }
+    .cv-links a:active {
+        transform: translateY(1px);
+    }
+    .cv-links a .icon {
+        width: 18px;
+        height: 18px;
+        opacity: 0.9;
+    }
+
+    .cv-section + .cv-section {
+        margin-top: 2.25rem;
+    }
+
+    .cv-section h2 {
+        margin: 0 0 1rem 0;
+        font-size: 1.5rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        padding-bottom: 0.5rem;
+        color: #111;
+    }
+
+    .cv-item {
+        margin: 0 0 1rem 0;
+    }
+
+    .cv-item h3 {
+        margin: 0;
+        font-size: 1.05rem;
+    }
+    /* Improve education heading contrast */
+    .cv-section[aria-label="Education"] .cv-item h3 {
+        color: #0f0f0f;
+        font-weight: 600;
+    }
+
+    /* Emphasize company name */
+    .cv-item h3.company {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f0f0f;
+    }
+
+    .cv-item .role {
+        margin-top: 0.15rem;
+        font-size: 1rem;
+        color: #444;
+    }
+
+    /* Larger, higher-contrast meta (location, start, end) */
+    .cv-item .meta {
+        color: #222;
+        font-size: 1.05rem;
+        font-weight: 500;
+        margin: 0.25rem 0 0.6rem 0;
+    }
+
+    .skill-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .skill-badge {
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 999px;
+        padding: 0.25rem 0.6rem;
+        font-size: 0.9rem;
+        background: #fff;
+        color: #111;
+        transition: background-color .15s ease, border-color .15s ease, color .15s ease, transform .05s ease;
+    }
+    .skill-badge:hover,
+    .skill-badge:focus-visible {
+        background: rgba(34, 197, 94, 0.15);
+        border-color: #22c55e;
+        color: #0f0f0f;
+    }
+    .skill-badge:focus {
+        outline: 3px solid #2684FF;
+        outline-offset: 2px;
+    }
+    .skill-badge:focus:not(:focus-visible) {
+        outline: none;
+    }
+</style>
+
+<article class="cv-wrapper">
+    <aside class="cv-left cv-card">
+        {{/* Resolve name and avatar from page or site config */}}
+        {{ $name := .Params.name | default .Site.Params.author | default .Title }}
+        {{ $avatar := .Params.photo | default (.Site.Params.avatar | default "avatar.jpg") }}
+        <img class="avatar" src="{{ $avatar | relURL }}" alt="{{ $name }}">
+        <h1 class="cv-name">{{ $name }}</h1>
+
+        <div class="cv-links">
+            {{/* Resolve website from page/site config and show a clean domain as label (strip http/https and www) */}}
+            {{ $website := .Params.website | default .Site.Params.website | default .Site.BaseURL }}
+            {{ $label := replaceRE "^https?://(www\\.)?" "" (trim $website "/") }}
+            <a href="{{ $website }}" target="_blank" rel="noreferrer noopener" aria-label="{{ printf "Website: %s" $label }}">
+                <span aria-hidden="true">
+                    {{ partial "icon.html" (dict "ctx" $ "name" "home" "title" "Website") }}
+                </span>
+                {{ $label }}
+            </a>
+
+            {{/* LinkedIn: resolve URL and show cleaned visible text (strip http/https and www) */}}
+            {{ $liURL := "" }}
+            {{ if .Params.linkedin }}
+                {{ $liURL = .Params.linkedin }}
+            {{ else }}
+                {{ with (first 1 (where .Site.Params.social "icon" "linkedin")) }}
+                    {{ $liURL = (index . 0).url }}
+                {{ end }}
+            {{ end }}
+            {{ with $liURL }}
+                {{ $liLabel := replaceRE "^https?://(www\\.)?" "" (trim . "/") }}
+                <a href="{{ . }}" target="_blank" rel="noreferrer noopener" aria-label="{{ printf "LinkedIn: %s" $liLabel }}">
+                    <span aria-hidden="true">
+                        {{ partial "icon.html" (dict "ctx" $ "name" "linkedin" "title" "LinkedIn") }}
+                    </span>
+                    {{ $liLabel }}
+                </a>
+            {{ end }}
+
+            {{/* GitHub: resolve URL and show cleaned visible text (strip http/https and www) */}}
+            {{ $ghURL := "" }}
+            {{ if .Params.github }}
+                {{ $ghURL = .Params.github }}
+            {{ else }}
+                {{ with (first 1 (where .Site.Params.social "icon" "github")) }}
+                    {{ $ghURL = (index . 0).url }}
+                {{ end }}
+            {{ end }}
+            {{ with $ghURL }}
+                {{ $ghLabel := replaceRE "^https?://(www\\.)?" "" (trim . "/") }}
+                <a href="{{ . }}" target="_blank" rel="noreferrer noopener" aria-label="{{ printf "GitHub: %s" $ghLabel }}">
+                    <span aria-hidden="true">
+                        {{ partial "icon.html" (dict "ctx" $ "name" "github" "title" "GitHub") }}
+                    </span>
+                    {{ $ghLabel }}
+                </a>
+            {{ end }}
+        </div>
+    </aside>
+
+    <section class="cv-right">
+        <div class="cv-card">
+            {{ if .Content }}
+            <div class="cv-section">
+                {{ .Content }}
+            </div>
+            {{ end }}
+
+            {{/* Support both 'experience' and 'jobs' */}}
+            {{ $experience := or .Params.experience .Params.jobs }}
+            {{ with $experience }}
+            <section class="cv-section" aria-label="Experience">
+                <h2>Experience</h2>
+                {{ range . }}
+                <div class="cv-item">
+                    <h3 class="company">
+                        {{ with .company }}{{ . }}{{ else }}{{ with .role }}{{ . }}{{ end }}{{ end }}
+                    </h3>
+                    {{ with .role }}<div class="role">{{ . }}</div>{{ end }}
+                    <div class="meta">
+                        {{ with .location }}{{ . }}{{ if or . $.start $.end }} · {{ end }}{{ end }}
+                        {{ with .start }}{{ . }}{{ end }}
+                        {{ if or .start .end }} — {{ end }}
+                        {{ with .end }}{{ . }}{{ else }}Present{{ end }}
+                    </div>
+                    {{ with .description }}
+                    <div>{{ . | markdownify }}</div>
+                    {{ end }}
+                </div>
+                {{ end }}
+            </section>
+            {{ end }}
+
+            {{ with .Params.education }}
+            <section class="cv-section" aria-label="Education">
+                <h2>Education</h2>
+                {{ range . }}
+                <div class="cv-item">
+                    <h3>
+                        {{ with .degree }}{{ . }}{{ end }}
+                        {{ if and .degree .school }} · {{ end }}
+                        {{ with .school }}{{ . }}{{ end }}
+                    </h3>
+                    {{ $start := .start }}
+                    {{ $end := .end }}
+                    <div class="meta">
+                        {{ if and $start $end }}
+                            {{ $start }} — {{ $end }}
+                        {{ else if $end }}
+                            Graduated {{ $end }}
+                        {{ else if $start }}
+                            {{ $start }}
+                        {{ end }}
+                    </div>
+                    {{ with .details }}
+                    <div>{{ . | markdownify }}</div>
+                    {{ end }}
+                </div>
+                {{ end }}
+            </section>
+            {{ end }}
+
+            {{ with .Params.skills }}
+            <section class="cv-section" aria-label="Additional skills and hobbies">
+                <h2>Additional skills and hobbies</h2>
+
+                {{/* Safely support both flat list (strings) and categorized list (maps with .name and .items) */}}
+                {{ $skills := . }}
+                {{ $count := len $skills }}
+                {{ if gt $count 0 }}
+                    {{ $first := index $skills 0 }}
+                    {{ $type := printf "%T" $first }}
+                    {{ $isMap := hasPrefix $type "map" }}
+
+                    {{ if $isMap }}
+                        {{ range $skills }}
+                        <div class="cv-item">
+                            {{ with .name }}<h3>{{ . }}</h3>{{ end }}
+                            <div class="skill-badges">
+                                {{ range .items }}
+                                <span class="skill-badge" tabindex="0" aria-label='{{ printf "Skill: %s" . }}'>{{ . }}</span>
+                                {{ end }}
+                            </div>
+                        </div>
+                        {{ end }}
+                    {{ else }}
+                        <div class="skill-badges">
+                            {{ range $skills }}
+                            <span class="skill-badge" tabindex="0" aria-label='{{ printf "Skill: %s" . }}'>{{ . }}</span>
+                            {{ end }}
+                        </div>
+                    {{ end }}
+                {{ end }}
+            </section>
+            {{ end }}
+        </div>
+    </section>
+</article>
+{{ end }}

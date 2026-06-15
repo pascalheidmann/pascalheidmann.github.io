@@ -1,0 +1,79 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    line-height: 1.6;
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background: $dark-color;
+    color: $light-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: $lightest-color;
+}
+
+a, a > * {
+    color: $primary-color;
+    transition: color 0.35s;
+    text-decoration: none;
+
+    &:hover, &:focus, &:active {
+        color: $lightest-color;
+        text-decoration-line: underline;
+        text-underline-offset: .3rem;
+        text-decoration-style: dashed;
+        text-decoration-color: $primary-color;
+    }
+}
+
+// Browsers seem to use a smaller default font-size with monospaced code
+// blocks (like 80% of the size of normal text) and that looks pretty bad with
+// small inline code-blocks in the middle of normal text (mainly because of
+// the very noticeable difference in x-height). This CSS corrects that problem.
+code {
+    font-family: monospace, monospace;
+    font-size: 1rem;
+    color: rgba($light-color, .8);
+}
+
+pre {
+    font-size: 1rem;
+    line-height: 1.2rem;
+    margin: 0;
+    overflow: auto;
+
+    // A larger monospaced block of text (that isn't mixed with normal text)
+    // generally looks heavier than normal text with the same font size. For this
+    // reason using a smaller monospaced font size makes sense in this situation.
+    code {
+        font-size: 1rem;
+    }
+}
+
+::selection {
+    background: rgba($light-color, .25);
+}
+
+::-moz-selection {
+    background: rgba($light-color, .25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .body {
+        background-color: $darkest-color;
+    }
+}

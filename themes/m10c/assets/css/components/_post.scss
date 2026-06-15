@@ -1,0 +1,25 @@
+.post-title {
+    color: $lightest-color;
+}
+
+.post-content {
+    & > pre,
+    .highlight {
+        margin: 1rem 0;
+    }
+
+    & > pre,
+    .highlight > pre,
+    .highlight > div {
+        border-left: 0.4rem solid rgba($primary-color, .8);
+        padding: .5rem 1rem;
+    }
+
+    img {
+        max-width: 100%;
+    }
+}
+
+.post-meta {
+    font-size: 1rem;
+}
