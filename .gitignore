@@ -1,3 +1,4 @@
 /.idea/
 /resources/_gen/assets/
 /public/
+.hugo_build.lock
